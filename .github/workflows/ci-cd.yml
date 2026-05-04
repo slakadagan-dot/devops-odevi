@@ -22,4 +22,4 @@ jobs:
         echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
     - name: Deploy
-      run: ansible-playbook -i ansible/inventory.ini ansible/deploy.yml
+      run: ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i ansible/inventory.ini ansible/deploy.yml
