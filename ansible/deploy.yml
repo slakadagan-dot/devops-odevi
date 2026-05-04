@@ -13,6 +13,6 @@
         state: started
         enabled: yes
     - name: Eski container sil
-      shell: docker rm -f myapp || true
+      shell: docker rm -f devops-odevi || true
     - name: Yeni container çalıştır
-      shell: docker run -d -p 80:5000 --name myapp yourdockerhub/myapp:latest
+      shell: docker run -d -p 80:5000 --name devops-odevi silakadagan/devops-odevi:latest
