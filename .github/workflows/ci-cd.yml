@@ -1,0 +1,25 @@
+name: CI-CD Pipeline
+on:
+  push:
+    branches: [ "main" ]
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Repo çek
+      uses: actions/checkout@v3
+    - name: Docker login
+      run: echo "${{ secrets.DOCKER_PASS }}" | docker login -u "${{ secrets.DOCKER_USER }}" --password-stdin
+    - name: Image build
+      run: docker build -t silakadagan/myapp:latest .
+    - name: Image push
+      run: docker push silakadagan/myapp:latest
+    - name: Ansible kur
+      run: sudo apt install ansible -y
+    - name: SSH key ekle
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+    - name: Deploy
+      run: ansible-playbook -i ansible/inventory.ini ansible/deploy.yml
